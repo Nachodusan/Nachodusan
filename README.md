@@ -30,6 +30,22 @@ Own evaluation harness with a golden set anchored to real chunks: **recall@5 of
 
 `TypeScript` `Next.js` `Turborepo` `PostgreSQL + pgvector` `BGE-M3` `mDeBERTa NLI` `Python`
 
+#### [sql-agent](https://github.com/Nachodusan/sql-agent) — an agent loop, and an eval that catches what looks right
+Natural-language questions answered by querying a database: LangGraph loop,
+tool calling, every step traced with latency, tokens and cost. The sample
+schema is seeded with traps so guessing is punished.
+
+**6/8 on the golden set; both failures are valid SQL returning confidently
+wrong numbers** — a join fan-out that silently over-counts refunds, and a
+missing `GROUP BY`. Grading compares result sets against hand-written reference
+queries, because the prose reads perfectly in both cases. The first version of
+the harness reported 3/8 and was itself wrong, so the grader has its own tests.
+
+Measured recovery rate across two models: 0%. Reported as found rather than
+engineered away.
+
+`Python` `LangGraph` `tool calling` `SQLite` `evals` `pytest`
+
 #### [bitacora-app](https://github.com/Nachodusan/bitacora-app) — voice journal for people in therapy
 Native iOS and Android apps with on-device transcription — the audio never leaves
 the phone. Long-term memory with pgvector: each day's summary is embedded,
