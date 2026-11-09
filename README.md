@@ -30,6 +30,20 @@ Own evaluation harness with a golden set anchored to real chunks: **recall@5 of
 
 `TypeScript` `Next.js` `Turborepo` `PostgreSQL + pgvector` `BGE-M3` `mDeBERTa NLI` `Python`
 
+#### [agent-evals](https://github.com/Nachodusan/agent-evals) — evaluate what an agent did, not just what it answered
+Trajectory checks, repeated runs, and a verdict that refuses to round. A case
+passes only if every attempt passed; anything in between is reported as flaky
+rather than as a percentage. Zero dependencies in the core.
+
+Pointed at my own sql-agent, which had a single-run harness reporting 6/8, it
+found three things that one run cannot: **one of the passing cases was a coin
+flip** (0/3, then 1/3), **the agent was reporting SQL it had never executed**
+with the right answer attached, and **a quarter of the weaker model's
+"failures" were crashes inside my agent**, not the model. Fixing that moved
+six failures into the right column and left the pass rate untouched.
+
+`Python` `agent evaluation` `trajectory` `flakiness` `pytest`
+
 #### [sql-agent](https://github.com/Nachodusan/sql-agent) — an agent loop, and an eval that catches what looks right
 Natural-language questions answered by querying a database: LangGraph loop,
 tool calling, every step traced with latency, tokens and cost. The sample
