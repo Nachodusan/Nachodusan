@@ -1,6 +1,6 @@
 ## Ignacio Duque Sandoval
 
-**AI Trainer · LLM Evaluation & RAG · Native Mobile**
+**AI Trainer · LLM Evaluation & RAG · Native Mobile**<br>
 Buenos Aires, Argentina — working remotely across Chile and Argentina
 
 I build AI products end to end: the app, the backend, the retrieval layer, and the
