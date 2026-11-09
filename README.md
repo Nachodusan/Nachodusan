@@ -44,6 +44,27 @@ six failures into the right column and left the pass rate untouched.
 
 `Python` `agent evaluation` `trajectory` `flakiness` `pytest`
 
+#### [vector-db-bench](https://github.com/Nachodusan/vector-db-bench) — latency at matched recall, not at whatever the defaults were
+Comparing vector databases at default settings measures the defaults. Every
+HNSW implementation trades accuracy for speed on a knob, so this sweeps it,
+measures recall against exact brute force, and compares at fixed recall
+targets. Qdrant, Chroma and pgvector over 41,896 real BGE-M3 embeddings.
+
+**The gap widens with accuracy**: at recall 0.90 Qdrant and pgvector are within
+40% of each other; at 0.99 it is 3.4×. One number per engine would have picked
+one of those at random.
+
+Chroma is excluded from the comparison with the reason stated — its
+`hnsw:ef_search` is accepted, persisted, reported back, and inert: identical
+results for all 500 queries across the whole sweep.
+
+The README's longest section is **the five ways the benchmark was wrong before
+it was right**, including a client bug of mine that was inflating pgvector's
+latency 2.4×, and a curve where latency fell as recall rose — which HNSW
+cannot do, and which is now an automatic guard.
+
+`Python` `HNSW` `pgvector` `Qdrant` `Chroma` `benchmarking`
+
 #### [sql-agent](https://github.com/Nachodusan/sql-agent) — an agent loop, and an eval that catches what looks right
 Natural-language questions answered by querying a database: LangGraph loop,
 tool calling, every step traced with latency, tokens and cost. The sample
