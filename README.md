@@ -8,10 +8,13 @@ evaluation that proves any of it actually works. Most of what I ship sits where 
 LLM meets something that has to be *correct* — clinical records, official
 coursebooks — so grounding, abstention and measurement matter more than fluency.
 
-How I work: **I measure before I decide.** In `ia-rioplatense` I threw away three
-rounds of LoRA fine-tuning because the A/B numbers said prompt + retrieval won.
-In `tutor-ia` an experiment measured the model's ceiling on mathematics and the
-feature left the product.
+How I work: **I measure before I decide, and I check the instrument first.** In
+`ia-rioplatense` I threw away three rounds of LoRA fine-tuning because the A/B
+numbers said prompt + retrieval won. In `tutor-ia` an experiment measured the
+model's ceiling on mathematics and the feature left the product. In half the
+repos below, the first finding was that my own harness was wrong — those are
+written up rather than quietly fixed, because a number nobody audited is not
+a result.
 
 ---
 
@@ -80,6 +83,29 @@ Measured recovery rate across two models: 0%. Reported as found rather than
 engineered away.
 
 `Python` `LangGraph` `tool calling` `SQLite` `evals` `pytest`
+
+#### [tinyllm-ios](https://github.com/Nachodusan/tinyllm-ios) — the tokens/sec figure a phone can actually hold
+MLX Swift running Qwen2.5-0.5B-4bit on an iPhone 16. Every on-device benchmark
+publishes one throughput number, and it is almost always the first generation on
+a cool device: **108.85 tok/s burst, 66.32 tok/s sustained** over 150 runs back
+to back. Both correct; only one describes using the thing.
+
+**`ProcessInfo.thermalState` is a lagging indicator** — by the time iOS first
+reported pressure above `nominal`, a quarter of the throughput was already gone.
+An app that only degrades on a state change has shipped that quarter to the user.
+
+Declining throughput has a second explanation that looks identical from inside
+one batch — accumulated state in the process — so the suite idles three minutes
+and runs the identical batch again. It recovered **99%** of the burst figure with
+memory flat across all 300 generations, which is what makes "thermal" a finding
+instead of a guess.
+
+The first measurement taken here was 12 runs and reported `retained 86%,
+throttled: never`. Arithmetically correct, wrong by 39%. That report is kept in
+`evidence/`, and `BenchmarkReport` now carries `reachedEquilibrium` and
+`warnings` so it says so itself.
+
+`Swift` `SwiftUI` `MLX` `on-device inference` `iOS` `benchmarking`
 
 #### [bitacora-app](https://github.com/Nachodusan/bitacora-app) — voice journal for people in therapy
 Native iOS and Android apps with on-device transcription — the audio never leaves
